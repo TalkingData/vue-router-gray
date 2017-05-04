@@ -4,8 +4,8 @@
 ## 使用
 
 ```
-import VueRouterGray from 'vue-router-gray';
-const router = new VueRouter({ ... });
+import vueRouterGray from 'vue-router-gray';
+const router = new VueRouter({});
 
-router.beforeEach(VueRouterGray());
+router.beforeEach(vueRouterGray());
 ```
