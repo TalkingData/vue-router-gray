@@ -1,6 +1,6 @@
 module.exports = vueRouterGray;
 function vueRouterGray(router, options) {
-  if (!router) return;
+  if (!router || location.href.indexOf('gray') > -1) return;
   options = options || {
     check: function(params) { return Promise.resolve(false); },
   };
