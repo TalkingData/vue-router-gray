@@ -2,7 +2,7 @@ module.exports = vueRouterGray;
 function vueRouterGray(router, options) {
   if (!router) return;
   options = options || {
-    check: function() { return Promise.resolve(false); },
+    check: function(params) { return Promise.resolve(false); },
   };
 
   router.beforeEach(gray);
@@ -24,9 +24,15 @@ function vueRouterGray(router, options) {
       next = arguments[2];
     }
     try {
-      options.check().then(function(v) {
+      options.check({
+        protocol: location.protocol,
+        host: location.host,
+        path: location.pathname,
+        search: location.search,
+        hash: location.hash,
+      }).then(function(v) {
         if (v) {
-          location.href = 'http://www.baidu.com';
+          location.href = v.grayUrl;
         } else {
           next();
         }

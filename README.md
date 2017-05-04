@@ -6,5 +6,20 @@
 ```
 import vueRouterGray from 'vue-router-gray';
 const router = new VueRouter({});
-vueRouterGray(router, {});
+vueRouterGray(router, {
+  check(params) {
+    /*{
+      protocol: location.protocol,
+      host: location.host,
+      path: location.pathname,
+      search: location.search,
+      hash: location.hash,
+    }*/
+    return new Promise((done) => {
+      setTimeout(() => done({
+        grayUrl: 'https://xxxx.com/gray/xxx'
+      }), 400);
+    });
+  },
+});
 ```
