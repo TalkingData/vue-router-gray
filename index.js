@@ -1,9 +1,13 @@
 module.exports = vueRouterGray;
-function vueRouterGray(options) {
+function vueRouterGray(router, options) {
+  if (!router) return;
   options = options || {
     check: function() { return Promise.resolve(false); },
   };
-  return function() {
+
+  router.beforeEach(gray);
+
+  function gray() {
     var to = null;
     var from = null;
     var next = null;

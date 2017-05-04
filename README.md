@@ -6,6 +6,5 @@
 ```
 import vueRouterGray from 'vue-router-gray';
 const router = new VueRouter({});
-
-router.beforeEach(vueRouterGray());
+vueRouterGray(router, {});
 ```
