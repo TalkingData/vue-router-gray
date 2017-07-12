@@ -1,8 +1,25 @@
 module.exports = vueRouterGray;
 function vueRouterGray(router, options) {
-  if (!router || location.href.indexOf('gray') > -1) return;
+  if (location.href.indexOf('index.gray.html') > -1) {
+    const fromUrl = localStorage.getItem('from');
+    if (!fromUrl) {
+      return;
+    }
+    try {
+      window.history.replaceState(
+        null,
+        null,
+        decodeURIComponent(fromUrl)
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    return;
+  }
+  if (!router) return;
   options = options || {
     check: function(params) { return Promise.resolve(false); },
+    apiGray: function() {},
   };
 
   router.beforeEach(gray);
@@ -24,21 +41,34 @@ function vueRouterGray(router, options) {
       next = arguments[2];
     }
     try {
-      options.check({
-        protocol: location.protocol,
-        host: location.host,
-        path: location.pathname,
-        search: location.search,
-        hash: location.hash,
+      return options.check({
+        protocol: encodeURIComponent(location.protocol),
+        host: encodeURIComponent(location.host),
+        path: encodeURIComponent(location.pathname),
+        search: encodeURIComponent(location.search),
+        hash: encodeURIComponent(location.hash),
+        href: encodeURIComponent(location.href),
+        uid: options.uid,
       }).then(function(v) {
         if (v) {
-          location.href = v.grayUrl;
-        } else {
-          next();
+          options.apiGray(!!v.isApiGray);
+          // 记录当前页面地址
+          localStorage.setItem('from', encodeURIComponent(location.href));
+          if (v.isPageGray && v.nextUrl) {
+            location.href = v.nextUrl;
+          }
+          return true;
         }
+        return true;
+      }).catch((e) => {
+        console.log('api error');
+        console.log(e);
+        return true;
       });
     } catch(e) {
-      next();
+      console.log('error');
+      console.log(e);
+      return next();
     }
   };
 };
