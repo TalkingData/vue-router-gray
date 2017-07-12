@@ -60,7 +60,7 @@ function vueRouterGray(router, options) {
           return true;
         }
         return true;
-      }).catch((e) => {
+      }).catch(function(e) {
         console.log('api error');
         console.log(e);
         return true;
