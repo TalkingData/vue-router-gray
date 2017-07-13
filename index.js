@@ -1,7 +1,16 @@
 module.exports = vueRouterGray;
 function vueRouterGray(router, options) {
+  if (!router) return;
+  options = options || {
+    check: function(params) { return Promise.resolve(false); },
+    apiGray: function() {},
+  };
+  let fromKey = 'from';
+  if (options.pid) {
+    fromKey = `from_${options.pid}`;
+  }
   if (location.href.indexOf('index.gray.html') > -1) {
-    const fromUrl = localStorage.getItem('from');
+    const fromUrl = localStorage.getItem(fromKey);
     if (!fromUrl) {
       return;
     }
@@ -16,11 +25,6 @@ function vueRouterGray(router, options) {
     }
     return;
   }
-  if (!router) return;
-  options = options || {
-    check: function(params) { return Promise.resolve(false); },
-    apiGray: function() {},
-  };
 
   router.beforeEach(gray);
 
@@ -53,7 +57,7 @@ function vueRouterGray(router, options) {
         if (v) {
           options.apiGray(!!v.isApiGray);
           // 记录当前页面地址
-          localStorage.setItem('from', encodeURIComponent(location.href));
+          localStorage.setItem(fromKey, encodeURIComponent(location.href));
           if (v.isPageGray && v.nextUrl) {
             location.href = v.nextUrl;
           }
