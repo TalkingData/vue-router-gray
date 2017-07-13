@@ -5,12 +5,13 @@ function vueRouterGray(router, options) {
     check: function(params) { return Promise.resolve(false); },
     apiGray: function() {},
   };
-  let fromKey = 'from';
+  var fromKey = 'from';
+  var fromUrl = '';
   if (options.pid) {
-    fromKey = `from_${options.pid}`;
+    fromKey = 'from_' + options.pid;
   }
   if (location.href.indexOf('index.gray.html') > -1) {
-    const fromUrl = localStorage.getItem(fromKey);
+    fromUrl = localStorage.getItem(fromKey);
     if (!fromUrl) {
       return;
     }
