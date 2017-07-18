@@ -62,13 +62,13 @@ function vueRouterGray(router, options) {
           if (v.isPageGray && v.nextUrl) {
             location.href = v.nextUrl;
           }
-          return true;
+          return next(true);
         }
-        return true;
+        return next(true);
       }).catch(function(e) {
         console.log('api error');
         console.log(e);
-        return true;
+        return next(true);
       });
     } catch(e) {
       console.log('error');
