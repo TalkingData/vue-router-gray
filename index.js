@@ -33,6 +33,7 @@ function vueRouterGray(router, options) {
     var to = null;
     var from = null;
     var next = null;
+    var needNext = (arguments.length === 3);
     // vue-router 1.x
     if (arguments.length === 1 && arguments[0].next) {
       to = arguments[0].to;
@@ -62,13 +63,13 @@ function vueRouterGray(router, options) {
           if (v.isPageGray && v.nextUrl) {
             location.href = v.nextUrl;
           }
-          return next(true);
+          return needNext ? next() : true;
         }
-        return next(true);
+        return needNext ? next() : true;
       }).catch(function(e) {
         console.log('api error');
         console.log(e);
-        return next(true);
+        return needNext ? next() : true;
       });
     } catch(e) {
       console.log('error');
