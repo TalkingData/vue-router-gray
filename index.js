@@ -58,9 +58,9 @@ function vueRouterGray(router, options) {
       }).then(function(v) {
         if (v) {
           options.apiGray(!!v.isApiGray);
-          // 记录当前页面地址
-          localStorage.setItem(fromKey, encodeURIComponent(location.href));
           if (v.isPageGray && v.nextUrl) {
+            // 记录当前页面地址
+            localStorage.setItem(fromKey, encodeURIComponent(location.href));
             location.href = v.nextUrl;
           }
         }
