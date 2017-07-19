@@ -63,7 +63,6 @@ function vueRouterGray(router, options) {
           if (v.isPageGray && v.nextUrl) {
             location.href = v.nextUrl;
           }
-          return needNext ? next() : true;
         }
         return needNext ? next() : true;
       }).catch(function(e) {
